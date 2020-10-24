@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: mysql_server
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: urlchecker
+    ports:
+      - "3306:3306"
+    networks:
+      - dev_network
+
+  urlchecker:
+    container_name: urlchecker
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/url-checker
+    depends_on:
+      - db
+    networks:
+      - dev_network
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+networks:
+  dev_network:
+    driver: bridge
