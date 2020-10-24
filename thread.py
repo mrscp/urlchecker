@@ -2,9 +2,8 @@ import threading
 import time
 
 
-def print_time(thread_name, delay, hi="no"):
+def print_time(thread_name, delay):
     while True:
-        print(hi)
         print("%s: %s" % (thread_name, time.ctime(time.time())))
         time.sleep(delay)
 
@@ -27,8 +26,8 @@ class Thread(threading.Thread):
 if __name__ == '__main__':
     # Create new threads
 
-    thread1 = Thread(1, "Thread-1", 5, print_time)
-    thread2 = Thread(2, "Thread-2", 15, print_time, hi="hi")
+    thread1 = Thread(1, "Thread-1", print_time, delay=10)
+    thread2 = Thread(2, "Thread-2", print_time, delay=5)
 
     # Start new Threads
     thread1.start()
